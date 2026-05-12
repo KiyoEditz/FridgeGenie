@@ -1,0 +1,6 @@
+{
+  "name": "FridgeGenie",
+  "description": "A mystical culinary oracle that reveals the gastronomic destiny of your leftovers. Turn ingredients into prophecies.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": []
+}
