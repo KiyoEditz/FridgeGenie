@@ -1,8 +1,7 @@
 import express from "express";
-import { createServer as createViteServer } from "vite";
 import path from "path";
 import { fileURLToPath } from "url";
-import { GoogleGenAI, SchemaType } from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -59,18 +58,18 @@ You MUST respond in strict JSON format matching the schema provided.`
         generationConfig: {
           responseMimeType: "application/json",
           responseSchema: {
-            type: SchemaType.OBJECT,
+            type: "object",
             properties: {
-              title: { type: SchemaType.STRING },
-              prophecy: { type: SchemaType.STRING },
-              ingredients: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
-              instructions: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
-              cookTime: { type: SchemaType.STRING },
-              difficulty: { type: SchemaType.STRING, enum: ["Novice", "Alchemist", "Grand Master"] },
-              wasteSavedApprox: { type: SchemaType.STRING }
+              title: { type: "string" },
+              prophecy: { type: "string" },
+              ingredients: { type: "array", items: { type: "string" } },
+              instructions: { type: "array", items: { type: "string" } },
+              cookTime: { type: "string" },
+              difficulty: { type: "string", enum: ["Novice", "Alchemist", "Grand Master"] },
+              wasteSavedApprox: { type: "string" }
             },
             required: ["title", "prophecy", "ingredients", "instructions", "cookTime", "difficulty", "wasteSavedApprox"]
-          }
+          } as any
         }
       });
 
@@ -84,6 +83,7 @@ You MUST respond in strict JSON format matching the schema provided.`
 
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
+    const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
